@@ -1,0 +1,26 @@
+{
+  "name": "hhstudies",
+  "version": "1.0.0",
+  "description": "a store repo with some learning",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "runAll": "ts-node ./src/runAll.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hiker-Hope/hhstudies.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hiker-Hope/hhstudies/issues"
+  },
+  "homepage": "https://github.com/Hiker-Hope/hhstudies#readme",
+  "devDependencies": {
+    "ts-node": "^9.1.1",
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.3"
+  }
+}
