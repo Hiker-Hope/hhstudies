@@ -4,8 +4,7 @@
   "description": "a store repo with some learning",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "runAll": "ts-node ./src/runAll.ts"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -19,6 +18,12 @@
   },
   "homepage": "https://github.com/Hiker-Hope/hhstudies#readme",
   "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/preset-env": "^7.12.16",
+    "@babel/preset-typescript": "^7.12.16",
+    "@types/jest": "^26.0.20",
+    "babel-jest": "^26.6.3",
+    "jest": "^26.6.3",
     "ts-node": "^9.1.1",
     "tslint": "^5.12.1",
     "typescript": "^3.3.3"
