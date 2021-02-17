@@ -1,15 +1,16 @@
 export const inputSort = (array: number[]): number[] => {
+    let currentValue = 0;
     for (let i = 1; i < array.length; i++) {
+        currentValue = array[i];
 
-        const currentValue = array[i];
-        let inputIndex = i;
-
-        while (currentValue < array[inputIndex - 1] && inputIndex > 0) {
-            array[inputIndex] = array[inputIndex - 1];
-            inputIndex--;
+        for (let inputIndex = i; inputIndex > 0; inputIndex--) {
+            if (currentValue < array[inputIndex - 1]) {
+                array[inputIndex] = array[inputIndex - 1];
+            } else {
+                array[inputIndex] = currentValue;
+                break;
+            }
         }
-
-        array[inputIndex] = currentValue;
     }
 
     return array;
