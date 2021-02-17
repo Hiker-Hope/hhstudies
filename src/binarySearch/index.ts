@@ -1,22 +1,21 @@
-export const binarySearch = (array, number) => {
-    let arrayStartIndex = 0
-    let arrayEndIndex = array.length - 1
+export const binarySearch = (array: number[], numberToFind: number): number | undefined => {
+    let searchArrayStartIndex = 0;
+    let searchArrayEndIndex = array.length - 1;
 
-    while (arrayStartIndex <= arrayEndIndex) {
-        let middle = Math.floor((arrayStartIndex + arrayEndIndex) / 2)
-        let attempt = array[middle]
+    while (searchArrayStartIndex <= searchArrayEndIndex) {
 
-        if (attempt === number) {
-            console.log('found')
-            return true
+        const arrayMiddle = Math.floor((searchArrayStartIndex + searchArrayEndIndex) / 2);
+        const middleNumber = array[arrayMiddle];
+
+        if (middleNumber === numberToFind) {
+            return arrayMiddle;
         }
 
-        if (attempt > number) {
-            arrayEndIndex = middle - 1
+        if (middleNumber > numberToFind) {
+            searchArrayEndIndex = arrayMiddle - 1;
         } else {
-            arrayStartIndex = middle + 1
+            searchArrayStartIndex = arrayMiddle + 1;
         }
     }
-    console.log('not found')
-    return false
+    return undefined;
 }

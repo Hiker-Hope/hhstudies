@@ -1,13 +1,17 @@
 import {binarySearch} from './index'
-
-const arrSorted = [1, 1, 2, 2, 3, 4, 5, 6, 7, 8];
-const arrNotSorted = [1, 3, 5, 21, 11, 2, 34, 242, 3, 423, 53, 74, 18];
+import {sortedArrayData, unsortedArrayData} from '../testData/arrays'
 
 
-test('finds an element in the sorted array', () => {
-    expect(binarySearch(arrSorted, 2)).toBe(true);
+test('BINARY SEARCH: finds an element in the sorted array', () => {
+    expect(binarySearch(sortedArrayData.one, 7)).toBe(6);
+    expect(binarySearch(sortedArrayData.two, 23)).toBe(2);
 });
 
-test('does not find an element in the unsorted array', () => {
-    expect(binarySearch(arrNotSorted, 2)).toBe(false);
+test('BINARY SEARCH: returns undefined for a missing element in an array', () => {
+    expect(binarySearch(sortedArrayData.two, 123)).toBeUndefined();
+});
+
+// сомнительный тест, иногда может и найти (случайно)
+test('BINARY SEARCH: returns undefined for an unsorted array', () => {
+    expect(binarySearch(unsortedArrayData.unsorted, 21)).toBeUndefined();
 });
