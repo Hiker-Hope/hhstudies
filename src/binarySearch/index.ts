@@ -2,7 +2,7 @@ export const binarySearch = (array: number[], numberToFind: number): number | un
     let searchArrayStartIndex = 0;
     let searchArrayEndIndex = array.length - 1;
 
-    while (searchArrayStartIndex <= searchArrayEndIndex) {
+    while (searchArrayStartIndex < searchArrayEndIndex) {
 
         const arrayMiddle = Math.floor((searchArrayStartIndex + searchArrayEndIndex) / 2);
         const middleNumber = array[arrayMiddle];
@@ -17,5 +17,6 @@ export const binarySearch = (array: number[], numberToFind: number): number | un
             searchArrayStartIndex = arrayMiddle + 1;
         }
     }
+
     return undefined;
 }
