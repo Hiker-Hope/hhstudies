@@ -9,14 +9,14 @@ export const hash = (key: string): number => {
     return hash;
 }
 
-export class HashTable {
-    public storage: [][];
+export class HashTable<ValueT> {
+    public storage: Array<string | ValueT>[];
 
     constructor() {
         this.storage = []
     }
 
-    addValue = function(key: string, value: any) {
+    addValue = function(key: string, value: ValueT) {
         const index = hash(key);
         this.storage[index] = [key, value];
     }
