@@ -1,4 +1,4 @@
-export const inputSort = (array: number[]): number[] => {
+export const insertionSort = (array: number[]): number[] => {
     let currentValue = 0;
     for (let i = 1; i < array.length; i++) {
         currentValue = array[i];
