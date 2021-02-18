@@ -10,7 +10,7 @@ export const hash = (key: string): number => {
 }
 
 export class HashTable {
-    public storage: Array<string>[];
+    public storage: [][];
 
     constructor() {
         this.storage = []
@@ -35,7 +35,7 @@ export class HashTable {
         if (!!this.storage[index] && this.storage[index][0] === key) {
             return this.storage[index][1]
         } else {
-            console.log(`Element with key "${key}" not found`)
+            console.log(`Element with key "${key}" is undefined`)
             return undefined
         }
     }
