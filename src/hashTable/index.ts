@@ -40,14 +40,3 @@ export class HashTable<ValueT> {
         }
     }
 }
-
-const myHash = new HashTable();
-
-myHash.addValue('hello', 'mister')
-console.log(1, myHash)
-myHash.addValue('hi', 'miss')
-console.log(2, myHash)
-myHash.removeValue('hello')
-console.log(3, myHash)
-myHash.findValue('hi')
-myHash.findValue('hello')

@@ -1,4 +1,4 @@
-import {hash} from './index'
+import {hash, HashTable} from './index'
 import {keyStrings} from '../testData/hash'
 
 
@@ -8,4 +8,32 @@ test('HASH FUNCTION: returns unique indices for anagrams', () => {
             expect(hash(keyStrings[i])).not.toBe(hash(keyStrings[j]));
         }
     }
+});
+
+test('HASH TABLE: adds and finds values', () => {
+    const hashTable = new HashTable();
+
+    hashTable.addValue('juice', 150);
+    hashTable.addValue('milk', 30);
+    hashTable.addValue('oranges', 200);
+    hashTable.addValue('butter', 100);
+
+    const keys = ['juice', 'milk', 'oranges', 'butter'];
+    const values = [150, 30, 200, 100];
+
+    keys.forEach((key, index) => {
+        expect(hashTable.findValue(key)).not.toBeUndefined();
+        expect(hashTable.findValue(key)).toBe(values[index]);
+    })
+});
+
+test('HASH TABLE: removes values', () => {
+    const hashTable = new HashTable();
+
+    hashTable.addValue('juice', 150);
+    hashTable.addValue('milk', 30);
+    hashTable.removeValue('juice');
+
+    expect(hashTable.findValue('milk')).not.toBeUndefined();
+    expect(hashTable.findValue('juice')).toBeUndefined();
 });
