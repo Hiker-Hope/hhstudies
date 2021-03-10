@@ -1,17 +1,11 @@
 const PRIME_BASE_NUMBER = 37;
 
-// TODO Add handling objects and booleans as keys and as parts of arrays
-
 export const keyToString = (key: any): string => {
     if (typeof key === 'string') {
         return key;
     }
-    if (typeof key === 'number') {
+    if (typeof key === 'number' || typeof key === 'boolean') {
         return key.toString();
-    }
-    if (Array.isArray(key)) {
-        console.log('[' + key.toString() + ']')
-        return '[' + key.toString() + ']';
     }
 }
 

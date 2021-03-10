@@ -3,9 +3,9 @@ export const keyStrings = [
 ]
 
 export const keys = [
-    'name', 1, 341, [1,4,6], [1,'pepep',4,6], 'amen',
+    'name', 1, 341, 34.5, false, true, 'amen',
 ]
 
 export const keysAsStrings = [
-    'name', '1', '341', '[1,4,6]', '[1,pepep,4,6]', 'amen',
+    'name', '1', '341', '34.5', 'false', 'true', 'amen',
 ]
