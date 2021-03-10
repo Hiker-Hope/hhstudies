@@ -1,4 +1,4 @@
-export const binarySearch = (array: number[], numberToFind: number): number | undefined => {
+export const binarySearch = (array: number[], numberToFind: number): number => {
     let searchArrayStartIndex = 0;
     let searchArrayEndIndex = array.length - 1;
 
@@ -18,5 +18,5 @@ export const binarySearch = (array: number[], numberToFind: number): number | un
         }
     }
 
-    return undefined;
+    return -1;
 }

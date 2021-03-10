@@ -8,10 +8,10 @@ test('BINARY SEARCH: finds an element in the sorted array', () => {
 });
 
 test('BINARY SEARCH: returns undefined for a missing element in an array', () => {
-    expect(binarySearch(sortedArrayData.two, 123)).toBeUndefined();
+    expect(binarySearch(sortedArrayData.two, 123)).toBe(-1);
 });
 
 // сомнительный тест, иногда может и найти (случайно)
 test('BINARY SEARCH: returns undefined for an unsorted array', () => {
-    expect(binarySearch(unsortedArrayData.unsorted, 21)).toBeUndefined();
+    expect(binarySearch(unsortedArrayData.unsorted, 21)).toBe(-1);
 });
