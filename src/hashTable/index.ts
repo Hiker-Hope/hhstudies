@@ -1,10 +1,9 @@
-// TODO всё ещё есть возможность получения одинаковых индексов для разных ключей
-//  придумать, как разобраться с коллизиями
+const PRIME_BASE_NUMBER = 37;
 
 export const hash = (key: string): number => {
     let hash = 0;
     for (let i = 0; i < key.length; i++) {
-        hash += key.charCodeAt(i) * i;
+        hash = hash * PRIME_BASE_NUMBER + key.charCodeAt(i);
     }
     return hash;
 }
