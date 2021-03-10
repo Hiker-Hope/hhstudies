@@ -9,7 +9,11 @@ export const keyToString = (key: any): string => {
     }
 }
 
-export const hash = (key: any): number => {
+export const hash = (key: any): number | null => {
+    if (typeof key === 'object' || typeof key === 'function') {
+        console.log('Provided key is not hashable');
+        return null;
+    }
     if (typeof key === 'number') {
         return key;
     }
@@ -31,10 +35,12 @@ export class HashTable<KeyT, ValueT> {
 
     addValue = function(key: KeyT, value: ValueT): void {
         const index = hash(key);
-        this.storage[index] = [key, value];
+        if (index !== null) {
+            this.storage[index] = [key, value];
+        }
     }
 
-    removeValue = function(key: string): void {
+    removeValue = function(key: KeyT): void {
         const index = hash(key)
         if (!!this.storage[index] && this.storage[index][0] === key) {
             delete this.storage[index]
