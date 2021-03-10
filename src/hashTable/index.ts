@@ -1,26 +1,42 @@
 const PRIME_BASE_NUMBER = 37;
 
-export const hash = (key: string): number => {
+// TODO Add handling objects and booleans as keys and as parts of arrays
+
+export const keyToString = (key: any): string => {
+    if (typeof key === 'string') {
+        return key;
+    }
+    if (typeof key === 'number') {
+        return key.toString();
+    }
+    if (Array.isArray(key)) {
+        console.log('[' + key.toString() + ']')
+        return '[' + key.toString() + ']';
+    }
+}
+
+export const hash = (key: any): number => {
     let hash = 0;
-    for (let i = 0; i < key.length; i++) {
+    let keyString = keyToString(key);
+    for (let i = 0; i < keyString.length; i++) {
         hash = hash * PRIME_BASE_NUMBER + key.charCodeAt(i);
     }
     return hash;
 }
 
-export class HashTable<ValueT> {
-    public storage: Array<string | ValueT>[];
+export class HashTable<KeyT, ValueT> {
+    public storage: Array<KeyT | ValueT>[];
 
     constructor() {
         this.storage = []
     }
 
-    addValue = function(key: string, value: ValueT) {
+    addValue = function(key: KeyT, value: ValueT): void {
         const index = hash(key);
         this.storage[index] = [key, value];
     }
 
-    removeValue = function(key: string) {
+    removeValue = function(key: string): void {
         const index = hash(key)
         if (!!this.storage[index] && this.storage[index][0] === key) {
             delete this.storage[index]
@@ -29,7 +45,7 @@ export class HashTable<ValueT> {
         }
     }
 
-    findValue = function(key) {
+    findValue = function(key: KeyT): ValueT | undefined {
         let index = hash(key)
         if (!!this.storage[index] && this.storage[index][0] === key) {
             return this.storage[index][1]
