@@ -4,15 +4,16 @@ export const keyToString = (key: any): string => {
     if (typeof key === 'string') {
         return key;
     }
-    if (typeof key === 'number') {
-        return key.toString();
-    }
     if (typeof key === 'boolean') {
         return key.toString() + '_bool';
     }
 }
 
 export const hash = (key: any): number => {
+    if (typeof key === 'number') {
+        return key;
+    }
+
     let hash = 0;
     let keyString = keyToString(key);
     for (let i = 0; i < keyString.length; i++) {

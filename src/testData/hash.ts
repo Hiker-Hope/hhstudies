@@ -1,11 +1,15 @@
 export const keyStrings = [
-    'name', 'mane', 'mean', 'amne', 'eamn', 'amen', false, 'false'
+    'name', 'mane', 'mean', 'amne', 'eamn', 'amen', false, 'false', 12, '12', 234.63, '234.63'
 ]
 
 export const keys = [
-    'name', 1, 341, 34.5, false, true, 'false', 'true', 'amen',
+    'name', false, true, 'false', 'true', 'amen',
 ]
 
 export const keysAsStrings = [
-    'name', '1', '341', '34.5', 'false_bool', 'true_bool', 'false', 'true', 'amen',
+    'name', 'false_bool', 'true_bool', 'false', 'true', 'amen',
+]
+
+export const keyNumbers = [
+    12, 0, 234.63, 54984756432, -523, -545.6
 ]
