@@ -4,8 +4,11 @@ export const keyToString = (key: any): string => {
     if (typeof key === 'string') {
         return key;
     }
-    if (typeof key === 'number' || typeof key === 'boolean') {
+    if (typeof key === 'number') {
         return key.toString();
+    }
+    if (typeof key === 'boolean') {
+        return key.toString() + '_bool';
     }
 }
 
@@ -13,7 +16,7 @@ export const hash = (key: any): number => {
     let hash = 0;
     let keyString = keyToString(key);
     for (let i = 0; i < keyString.length; i++) {
-        hash = hash * PRIME_BASE_NUMBER + key.charCodeAt(i);
+        hash = hash * PRIME_BASE_NUMBER + keyString.charCodeAt(i);
     }
     return hash;
 }

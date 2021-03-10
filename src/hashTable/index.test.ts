@@ -10,7 +10,7 @@ test('HASH FUNCTION: returns unique indices for anagrams', () => {
     }
 });
 
-test('KEY TO STING FUNCTION: returns string for various types od keys', () => {
+test('KEY TO STRING FUNCTION: returns strings for various types of keys', () => {
     for (let i = 0; i < keys.length -1; i++) {
         expect(keyToString(keys[i])).toBe(keysAsStrings[i]);
     }
