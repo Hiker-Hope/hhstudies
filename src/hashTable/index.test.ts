@@ -23,7 +23,7 @@ test('KEY TO STRING FUNCTION: returns strings for various types of keys', () => 
 });
 
 test('HASH TABLE: adds and finds values', () => {
-    const hashTable = new HashTable();
+    const hashTable = new HashTable(10);
 
     hashTable.addValue('juice', 150);
     hashTable.addValue('milk', 30);
@@ -35,6 +35,7 @@ test('HASH TABLE: adds and finds values', () => {
 
     const keys = ['juice', 'milk', 'oranges', 'butter', false, 405];
     const values = [150, 30, 200, 100, 300, 350];
+    console.log(hashTable.storage)
 
     keys.forEach((key, index) => {
         expect(hashTable.findValue(key)).not.toBeUndefined();
@@ -43,7 +44,7 @@ test('HASH TABLE: adds and finds values', () => {
 });
 
 test('HASH TABLE: removes values', () => {
-    const hashTable = new HashTable();
+    const hashTable = new HashTable(10);
 
     hashTable.addValue('juice', 150);
     hashTable.addValue('milk', 30);
@@ -61,7 +62,7 @@ test('HASH TABLE: removes values', () => {
 });
 
 test('HASH TABLE: does not add values with object-keys', () => {
-    const hashTable = new HashTable();
+    const hashTable = new HashTable(10);
 
     hashTable.addValue({hey: 'juice'}, 150);
     hashTable.addValue([false, 2,4], 30);

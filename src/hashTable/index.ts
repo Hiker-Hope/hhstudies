@@ -29,21 +29,34 @@ export const hash = (key: any): number | null => {
 
 export class HashTable<KeyT, ValueT> {
     public storage: Array<KeyT | ValueT>[];
+    private tableSize: number;
 
-    constructor() {
-        this.storage = []
+    constructor(elementsAmount: number) {
+        this.storage = [];
+        this.tableSize = elementsAmount * 2;
     }
 
     addValue = function(key: KeyT, value: ValueT): void {
-        const index = hash(key);
+        const hashedKey = hash(key);
+        let index = hashedKey !== null ?  hashedKey % this.tableSize : hashedKey;
+
         if (index !== null) {
+            // if we have this slot occupied
+            while (this.storage[index] !== undefined) {
+                // if the key is identical - we stop searching for an empty slot and update the value
+                if (this.storage[index][0] === key) {
+                    break;
+                }
+                index += 1 % this.tableSize;
+            }
             this.storage[index] = [key, value];
         }
     }
 
     removeValue = function(key: KeyT): void {
-        const index = hash(key)
-        if (!!this.storage[index] && this.storage[index][0] === key) {
+        const hashedKey = hash(key);
+        let index = hashedKey !== null ?  hashedKey % this.tableSize : hashedKey;
+        if (hashedKey!== null && !!this.storage[index] && this.storage[index][0] === key) {
             delete this.storage[index]
         } else {
             console.error(`Element with key "${key}" not found`)
@@ -51,12 +64,24 @@ export class HashTable<KeyT, ValueT> {
     }
 
     findValue = function(key: KeyT): ValueT | undefined {
-        let index = hash(key)
-        if (!!this.storage[index] && this.storage[index][0] === key) {
-            return this.storage[index][1]
+        const hashedKey = hash(key);
+        if (hashedKey === null) {
+            console.log('Provided key is not hashable');
+            return undefined;
+        }
+
+        let index = hashedKey % this.tableSize;
+        // if we have this slot occupied
+        if (!!this.storage[index] ) {
+            // if the slot is occupied with another key - it's a collision
+            while (this.storage[index][0] !== key) {
+                index += 1 % this.tableSize;
+                break;
+            }
+            return this.storage[index][1];
         } else {
-            console.log(`Element with key "${key}" is undefined`)
-            return undefined
+            console.log(`Element with key "${key}" is undefined`);
+            return undefined;
         }
     }
 }
