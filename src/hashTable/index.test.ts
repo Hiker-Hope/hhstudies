@@ -23,7 +23,7 @@ test('KEY TO STRING FUNCTION: returns strings for various types of keys', () => 
 });
 
 test('HASH TABLE: adds and finds values', () => {
-    const hashTable = new HashTable(10);
+    const hashTable = new HashTable(7);
 
     hashTable.addValue('juice', 150);
     hashTable.addValue('milk', 30);
@@ -31,11 +31,30 @@ test('HASH TABLE: adds and finds values', () => {
     hashTable.addValue('butter', 100);
     hashTable.addValue(false, 300);
     hashTable.addValue(405, 350);
+    hashTable.addValue(9007199254740991n, 'hey there');
 
+    const keys = ['juice', 'milk', 'oranges', 'butter', false, 405, 9007199254740991n];
+    const values = [150, 30, 200, 100, 300, 350, 'hey there'];
 
-    const keys = ['juice', 'milk', 'oranges', 'butter', false, 405];
-    const values = [150, 30, 200, 100, 300, 350];
-    console.log(hashTable.storage)
+    keys.forEach((key, index) => {
+        expect(hashTable.findValue(key)).not.toBeUndefined();
+        expect(hashTable.findValue(key)).toBe(values[index]);
+    })
+});
+
+test('HASH TABLE: updates values with identical keys', () => {
+    const hashTable = new HashTable(3);
+
+    hashTable.addValue('butter', 'cheap');
+    hashTable.addValue(405, 111);
+    hashTable.addValue(9007199254740991n, 'hey there');
+
+    hashTable.addValue('butter', 'expensive');
+    hashTable.addValue(405, 222);
+    hashTable.addValue(9007199254740991n, 'bye there');
+
+    const keys = ['butter', 405, 9007199254740991n];
+    const values = ['expensive', 222, 'bye there'];
 
     keys.forEach((key, index) => {
         expect(hashTable.findValue(key)).not.toBeUndefined();
@@ -61,12 +80,19 @@ test('HASH TABLE: removes values', () => {
     expect(hashTable.findValue(false)).toBeUndefined();
 });
 
-test('HASH TABLE: does not add values with object-keys', () => {
+test('HASH TABLE: does not add values with unhashable keys', () => {
     const hashTable = new HashTable(10);
 
-    hashTable.addValue({hey: 'juice'}, 150);
-    hashTable.addValue([false, 2,4], 30);
+    const obj = {hey: 'juice'};
+    const func = () => {};
+    const arr = [false, 2,4]
 
-    expect(hashTable.findValue({hey: 'juice'})).toBeUndefined();
-    expect(hashTable.findValue([false, 2,4])).toBeUndefined();
+    hashTable.addValue(obj, 150);
+    hashTable.addValue(arr, 30);
+    hashTable.addValue(func, 30);
+
+    expect(hashTable.findValue(obj)).toBeUndefined();
+    expect(hashTable.findValue(arr)).toBeUndefined();
+    expect(hashTable.findValue(func)).toBeUndefined();
+
 });

@@ -1,5 +1,5 @@
 export const keyStrings = [
-    'name', 'mane', 'mean', 'amne', 'eamn', 'amen', false, 'false', 12, '12', 234.63, '234.63'
+    'name', 'mane', 'mean', 'amne', 'eamn', 'amen',
 ]
 
 export const keys = [
