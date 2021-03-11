@@ -1,5 +1,5 @@
 import {keyToString, hash, HashTable} from './index'
-import {keyStrings, keys, keysAsStrings, keyNumbers} from '../testData/hash'
+import {keyStrings, keys, keysAsStrings} from '../testData/hash'
 
 
 test('HASH FUNCTION: returns unique indices for anagrams', () => {
@@ -7,12 +7,6 @@ test('HASH FUNCTION: returns unique indices for anagrams', () => {
         for (let j = i + 1; j < keyStrings.length; j++) {
             expect(hash(keyStrings[i])).not.toBe(hash(keyStrings[j]));
         }
-    }
-});
-
-test('HASH FUNCTION: returns keys as indices for numbers', () => {
-    for (let i = 0; i < keyNumbers.length -1; i++) {
-            expect(hash(keyNumbers[i])).toBe(keyNumbers[i]);
     }
 });
 

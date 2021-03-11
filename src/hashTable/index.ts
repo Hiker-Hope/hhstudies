@@ -1,11 +1,11 @@
-const PRIME_BASE_NUMBER = 37;
+const PRIME_BASE_NUMBER = 307;
 
 export const keyToString = (key: any): string => {
     if (typeof key === 'string') {
         return key;
     }
-    if (typeof key === 'boolean') {
-        return key.toString() + '_bool';
+    if (typeof key === 'number' || typeof key === 'boolean') {
+        return key.toString();
     }
 }
 
@@ -14,14 +14,15 @@ export const hash = (key: any): number | null => {
         console.log('Provided key is not hashable');
         return null;
     }
-    if (typeof key === 'number') {
-        return key;
-    }
 
     let hash = 0;
+    let multiplier = 1;
     let keyString = keyToString(key);
     for (let i = 0; i < keyString.length; i++) {
-        hash = hash * PRIME_BASE_NUMBER + keyString.charCodeAt(i);
+        if (typeof key === 'number' || typeof key === 'boolean') {
+            multiplier = 37
+        }
+        hash = hash * PRIME_BASE_NUMBER * multiplier + keyString.charCodeAt(i);
     }
     return hash;
 }

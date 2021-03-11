@@ -7,9 +7,5 @@ export const keys = [
 ]
 
 export const keysAsStrings = [
-    'name', 'false_bool', 'true_bool', 'false', 'true', 'amen',
-]
-
-export const keyNumbers = [
-    12, 0, 234.63, 54984756432, -523, -545.6
+    'name', 'false', 'true', 'false', 'true', 'amen',
 ]
