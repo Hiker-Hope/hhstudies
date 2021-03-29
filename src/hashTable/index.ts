@@ -41,6 +41,7 @@ export class HashTable<KeyT, ValueT> {
     addValue = function(key: KeyT, value: ValueT): void {
         const hashedKey = hash(key);
         let index = hashedKey % this.tableSize;
+        let squareRoot = 1;
         const isNotPrimitiveKey = typeof key === 'object' || typeof key === 'function';
 
         // if we have this slot occupied
@@ -53,7 +54,9 @@ export class HashTable<KeyT, ValueT> {
             ) {
                 break;
             }
-            index += 1 % this.tableSize;
+            index += Math.pow(squareRoot, 2);
+            index = index % this.tableSize;
+            squareRoot++;
         }
         this.storage[index] = [key, value];
     }
@@ -61,14 +64,22 @@ export class HashTable<KeyT, ValueT> {
     removeValue = function(key: KeyT): void {
         const hashedKey = hash(key);
         let index =  hashedKey % this.tableSize;
+        let squareRoot = 1;
         const isNotPrimitiveKey = typeof key === 'object' || typeof key === 'function';
 
-        if (hashedKey!== null
-            && !!this.storage[index]
-            && ((!isNotPrimitiveKey && this.storage[index][0] === key)
+        // if we have this slot occupied
+        if (!!this.storage[index] ) {
+
+            // if the slot is occupied with another key - it's a collision
+            while ((!isNotPrimitiveKey && this.storage[index][0] !== key)
                 || (isNotPrimitiveKey && typeof this.storage[index][0] === 'bigint')
-                || (isNotPrimitiveKey && JSON.stringify(this.storage[index][0]) === JSON.stringify(key)))
-        ) {
+                || (isNotPrimitiveKey && JSON.stringify(this.storage[index][0]) !== JSON.stringify(key))
+                ) {
+                index += Math.pow(squareRoot, 2);
+                index = index % this.tableSize;
+                squareRoot++;
+            }
+
             delete this.storage[index]
         } else {
             console.log(`Element with key "${key}" not found`)
@@ -80,6 +91,7 @@ export class HashTable<KeyT, ValueT> {
         const isNotPrimitiveKey = typeof key === 'object' || typeof key === 'function';
 
         let index = hashedKey % this.tableSize;
+        let squareRoot = 1;
         // if we have this slot occupied
         if (!!this.storage[index] ) {
 
@@ -88,7 +100,9 @@ export class HashTable<KeyT, ValueT> {
                 || (isNotPrimitiveKey && typeof this.storage[index][0] === 'bigint')
                 || (isNotPrimitiveKey && JSON.stringify(this.storage[index][0]) !== JSON.stringify(key))
                 ) {
-                index += 1 % this.tableSize;
+                index += Math.pow(squareRoot, 2);
+                index = index % this.tableSize;
+                squareRoot++;
             }
 
             return this.storage[index][1];
