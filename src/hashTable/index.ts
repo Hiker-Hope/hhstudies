@@ -40,29 +40,27 @@ export class HashTable<KeyT, ValueT> {
 
     addValue = function(key: KeyT, value: ValueT): void {
         const hashedKey = hash(key);
-        let index = hashedKey !== null ?  hashedKey % this.tableSize : hashedKey;
+        let index = hashedKey % this.tableSize;
         const isNotPrimitiveKey = typeof key === 'object' || typeof key === 'function';
 
-        if (index !== null) {
-            // if we have this slot occupied
-            while (this.storage[index] !== undefined) {
-                // if the key is identical - we stop searching for an empty slot and update the value
-                if (
-                    (!isNotPrimitiveKey && this.storage[index][0] === key)
-                    || (isNotPrimitiveKey && typeof this.storage[index][0] === 'bigint')
-                    || (isNotPrimitiveKey && JSON.stringify(this.storage[index][0]) === JSON.stringify(key))
-                ) {
-                    break;
-                }
-                index += 1 % this.tableSize;
+        // if we have this slot occupied
+        while (this.storage[index] !== undefined) {
+            // if the key is identical - we stop searching for an empty slot and update the value
+            if (
+                (!isNotPrimitiveKey && this.storage[index][0] === key)
+                || (isNotPrimitiveKey && typeof this.storage[index][0] === 'bigint')
+                || (isNotPrimitiveKey && JSON.stringify(this.storage[index][0]) === JSON.stringify(key))
+            ) {
+                break;
             }
-            this.storage[index] = [key, value];
+            index += 1 % this.tableSize;
         }
+        this.storage[index] = [key, value];
     }
 
     removeValue = function(key: KeyT): void {
         const hashedKey = hash(key);
-        let index = hashedKey !== null ?  hashedKey % this.tableSize : hashedKey;
+        let index =  hashedKey % this.tableSize;
         const isNotPrimitiveKey = typeof key === 'object' || typeof key === 'function';
 
         if (hashedKey!== null
@@ -80,9 +78,6 @@ export class HashTable<KeyT, ValueT> {
     findValue = function(key: KeyT): ValueT | undefined {
         const hashedKey = hash(key);
         const isNotPrimitiveKey = typeof key === 'object' || typeof key === 'function';
-        if (hashedKey === null) {
-            return undefined;
-        }
 
         let index = hashedKey % this.tableSize;
         // if we have this slot occupied
