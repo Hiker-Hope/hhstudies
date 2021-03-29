@@ -29,6 +29,20 @@ export const hash = (key: any): number | null => {
     return hash;
 }
 
+const isDeepEqualKeys = ({storedKey, targetKey}): boolean => {
+    const isPrimitiveKey = typeof targetKey !== 'object' && typeof targetKey !== 'function';
+
+    if (isPrimitiveKey) {
+        return storedKey === targetKey;
+    } else {
+        if (typeof storedKey === 'bigint') {
+            return false;
+        } else {
+            return JSON.stringify(storedKey) === JSON.stringify(targetKey);
+        }
+    }
+}
+
 export class HashTable<KeyT, ValueT> {
     public storage: Array<KeyT | ValueT>[];
     private tableSize: number;
@@ -42,16 +56,11 @@ export class HashTable<KeyT, ValueT> {
         const hashedKey = hash(key);
         let index = hashedKey % this.tableSize;
         let squareRoot = 1;
-        const isNotPrimitiveKey = typeof key === 'object' || typeof key === 'function';
 
         // if we have this slot occupied
         while (this.storage[index] !== undefined) {
             // if the key is identical - we stop searching for an empty slot and update the value
-            if (
-                (!isNotPrimitiveKey && this.storage[index][0] === key)
-                || (isNotPrimitiveKey && typeof this.storage[index][0] === 'bigint')
-                || (isNotPrimitiveKey && JSON.stringify(this.storage[index][0]) === JSON.stringify(key))
-            ) {
+            if (isDeepEqualKeys({storedKey: this.storage[index][0], targetKey: key})) {
                 break;
             }
             index += Math.pow(squareRoot, 2);
@@ -65,16 +74,12 @@ export class HashTable<KeyT, ValueT> {
         const hashedKey = hash(key);
         let index =  hashedKey % this.tableSize;
         let squareRoot = 1;
-        const isNotPrimitiveKey = typeof key === 'object' || typeof key === 'function';
 
         // if we have this slot occupied
         if (!!this.storage[index] ) {
 
             // if the slot is occupied with another key - it's a collision
-            while ((!isNotPrimitiveKey && this.storage[index][0] !== key)
-                || (isNotPrimitiveKey && typeof this.storage[index][0] === 'bigint')
-                || (isNotPrimitiveKey && JSON.stringify(this.storage[index][0]) !== JSON.stringify(key))
-                ) {
+            while (!isDeepEqualKeys({storedKey: this.storage[index][0], targetKey: key})) {
                 index += Math.pow(squareRoot, 2);
                 index = index % this.tableSize;
                 squareRoot++;
@@ -88,7 +93,6 @@ export class HashTable<KeyT, ValueT> {
 
     findValue = function(key: KeyT): ValueT | undefined {
         const hashedKey = hash(key);
-        const isNotPrimitiveKey = typeof key === 'object' || typeof key === 'function';
 
         let index = hashedKey % this.tableSize;
         let squareRoot = 1;
@@ -96,10 +100,7 @@ export class HashTable<KeyT, ValueT> {
         if (!!this.storage[index] ) {
 
             // if the slot is occupied with another key - it's a collision
-            while ((!isNotPrimitiveKey && this.storage[index][0] !== key)
-                || (isNotPrimitiveKey && typeof this.storage[index][0] === 'bigint')
-                || (isNotPrimitiveKey && JSON.stringify(this.storage[index][0]) !== JSON.stringify(key))
-                ) {
+            while (!isDeepEqualKeys({storedKey: this.storage[index][0], targetKey: key})) {
                 index += Math.pow(squareRoot, 2);
                 index = index % this.tableSize;
                 squareRoot++;
