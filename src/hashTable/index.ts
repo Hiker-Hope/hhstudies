@@ -46,10 +46,12 @@ const isDeepEqualKeys = ({storedKey, targetKey}): boolean => {
 export class HashTable<KeyT, ValueT> {
     public storage: Array<KeyT | ValueT>[];
     private tableSize: number;
+    private filledSlotsAmount: number;
 
     constructor(elementsAmount: number) {
         this.storage = [];
         this.tableSize = elementsAmount * 2;
+        this.filledSlotsAmount = 0;
     }
 
     addValue = function(key: KeyT, value: ValueT): void {
@@ -68,6 +70,11 @@ export class HashTable<KeyT, ValueT> {
             squareRoot++;
         }
         this.storage[index] = [key, value];
+        this.filledSlotsAmount++;
+
+        if ((this.filledSlotsAmount /(this.tableSize / 100)) >= 60) {
+            this.resize();
+        }
     }
 
     removeValue = function(key: KeyT): void {
@@ -86,6 +93,7 @@ export class HashTable<KeyT, ValueT> {
             }
 
             delete this.storage[index]
+            this.filledSlotsAmount--;
         } else {
             console.log(`Element with key "${key}" not found`)
         }
@@ -111,5 +119,33 @@ export class HashTable<KeyT, ValueT> {
             console.log(`Element with key "${key}" is undefined`);
             return undefined;
         }
+    }
+
+    resize = function(): void {
+        const newTableSize = this.tableSize * 2;
+        const newStorage: Array<KeyT | ValueT>[] = [];
+
+        for (let i = 0; i < this.tableSize; i++) {
+            if (this.storage[i] !== undefined) {
+                const hashedKey = hash(this.storage[i][0]);
+                let index = hashedKey % newTableSize;
+                let squareRoot = 1;
+
+                // if we have this slot occupied
+                while (newStorage[index] !== undefined) {
+                    // if the key is identical - we stop searching for an empty slot and update the value
+                    if (isDeepEqualKeys({storedKey: newStorage[index][0], targetKey: this.storage[i][0]})) {
+                        break;
+                    }
+                    index += Math.pow(squareRoot, 2);
+                    index = index % newTableSize;
+                    squareRoot++;
+                }
+                newStorage[index] = [this.storage[i][0], this.storage[i][1]];
+            }
+        }
+
+        this.tableSize = newTableSize;
+        this.storage = newStorage;
     }
 }

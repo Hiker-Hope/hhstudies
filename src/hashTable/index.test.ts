@@ -49,6 +49,36 @@ test('HASH TABLE: adds and finds values', () => {
     })
 });
 
+test('HASH TABLE: resizes when filled by more than 60%', () => {
+    const initialSize = 8;
+    const hashTable = new HashTable(initialSize);
+
+    const obj = {hey: 'juice'};
+    const func = () => {console.log('hello')};
+    const arr = [false, 2,4]
+
+    hashTable.addValue('juice', 150);
+    hashTable.addValue('milk', 30);
+    hashTable.addValue('oranges', 200);
+    hashTable.addValue('butter', 100);
+    hashTable.addValue('1juice', 150);
+    hashTable.addValue('1milk', 30);
+    hashTable.addValue('1oranges', 200);
+    hashTable.addValue('1butter', 100);
+    hashTable.addValue(false, 300);
+    hashTable.addValue(405, 350);
+    hashTable.addValue(9007199254740991n, 'hey there');
+    hashTable.addValue(obj, 2224);
+    hashTable.addValue(func, 3050);
+    hashTable.addValue(arr, 11111);
+    hashTable.addValue(900719925474094, 'hey there');
+
+    keys.forEach((key, index) => {
+        expect(hashTable.storage.length).toBe(initialSize * 4 -1);
+    })
+});
+
+
 test('HASH TABLE: updates values with identical keys', () => {
     const hashTable = new HashTable(6);
 
